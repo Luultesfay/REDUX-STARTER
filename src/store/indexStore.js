@@ -4,11 +4,11 @@ and about coming up with unique identifiers
 and about avoiding typos*/
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-const initialState = { counter: 0, showCounter: true };
+const initialCounterState = { counter: 0, showCounter: true };
 
 const counterSlice = createSlice({
   name: "counter",
-  initialState,
+  initialState: initialCounterState,
   reducers: {
     increment(state) {
       state.counter++;
@@ -25,12 +25,29 @@ const counterSlice = createSlice({
   },
 });
 
+//adding the second slice that manage the authentication
+const intialAuthState = {
+  isAuthenticated: false,
+};
+const authSlice = createSlice({
+  name: "Authentication",
+  initialState: intialAuthState,
+  reducers: {
+    login(state) {
+      state.isAuthenticated = true;
+    },
+    logout(state) {
+      state.isAuthenticated = false;
+    },
+  },
+});
+
 const store = configureStore({
-  reducer: counterSlice.reducer,
+  reducer: { counter: counterSlice.reducer, auth: authSlice.reducer }, //when we work with multiple Createslice() we shouldand must only have one store
 });
 
 export const counterActions = counterSlice.actions; //counterSlice.actions.toggleCounter or increment or decrement  when this methods calls they produce action of objects with type property
-
+export const authActions = authSlice.actions;
 export default store;
 
 /*Note

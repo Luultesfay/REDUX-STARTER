@@ -1,4 +1,10 @@
+import { Fragment } from "react";
 import Counter from "./components/Counter";
+import Headers from "../src/components/Header";
+import Auth from "./components/Auth";
+import UserProfile from "./components/UserProfile";
+import { useSelector } from "react-redux";
+
 /**
  * Redux install
 
@@ -15,7 +21,16 @@ for example, make it very simple to subscribe components to the Redux store. npm
 */
 
 function App() {
-  return <Counter />;
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
+  return (
+    <Fragment>
+      <Headers />
+
+      {!isAuth && <Auth />}
+      {isAuth && <UserProfile />}
+      <Counter />
+    </Fragment>
+  );
 }
 
 export default App;
